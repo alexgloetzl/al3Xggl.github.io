@@ -12,6 +12,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             min-height: 100vh;
             background-color: #f4f4f9;
         }
@@ -48,31 +49,45 @@
             width: 50px;
             border: none;
         }
+        #controls {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
+    <div id="controls">
+        <input type="text" id="name" placeholder="Name" />
+        <input type="number" id="generation" placeholder="Generation" min="1" />
+        <input type="text" id="parents" placeholder="Parents (comma-separated)" />
+        <button onclick="addMember()">Add Member</button>
+    </div>
+
     <div class="family-tree" id="familyTree">
         <!-- Family tree will be dynamically generated here -->
     </div>
 
     <script>
-        const familyData = [
-            { name: "Grandfather", generation: 1 },
-            { name: "Grandmother", generation: 1 },
-            { name: "Father", generation: 2, parents: ["Grandfather", "Grandmother"] },
-            { name: "Mother", generation: 2 },
-            { name: "Child 1", generation: 3, parents: ["Father", "Mother"] },
-            { name: "Child 2", generation: 3, parents: ["Father", "Mother"] },
-            { name: "Child 3", generation: 3, parents: ["Father", "Mother"] }
-        ];
+        let familyData = [];
 
-        function createFamilyTree(data) {
+        function addMember() {
+            const name = document.getElementById('name').value.trim();
+            const generation = parseInt(document.getElementById('generation').value);
+            const parents = document.getElementById('parents').value.trim().split(',').map(p => p.trim());
+
+            if (name && generation) {
+                familyData.push({ name, generation, parents: parents.filter(p => p) });
+                renderFamilyTree();
+            }
+        }
+
+        function renderFamilyTree() {
             const treeContainer = document.getElementById('familyTree');
+            treeContainer.innerHTML = '';
 
             const generations = {};
 
             // Group members by generation
-            data.forEach(person => {
+            familyData.forEach(person => {
                 if (!generations[person.generation]) {
                     generations[person.generation] = [];
                 }
@@ -87,7 +102,6 @@
                     const personDiv = document.createElement('div');
                     personDiv.className = 'person';
                     personDiv.innerHTML = `<p>${member.name}</p>`;
-
                     genDiv.appendChild(personDiv);
                 });
 
@@ -95,23 +109,30 @@
             });
 
             // Add connections
-            data.forEach(person => {
+            familyData.forEach(person => {
                 if (person.parents) {
                     person.parents.forEach(parentName => {
-                        const parent = document.querySelector(`.person p:contains('${parentName}')`);
-                        const child = document.querySelector(`.person p:contains('${person.name}')`);
+                        const parentElement = Array.from(document.querySelectorAll('.person')).find(el => el.textContent.trim() === parentName);
+                        const childElement = Array.from(document.querySelectorAll('.person')).find(el => el.textContent.trim() === person.name);
 
-                        if (parent && child) {
-                            const connection = document.createElement('div');
-                            connection.className = 'connection';
-                            parent.appendChild(connection);
+                        if (parentElement && childElement) {
+                            const parentRect = parentElement.getBoundingClientRect();
+                            const childRect = childElement.getBoundingClientRect();
+
+                            const connectionLine = document.createElement('div');
+                            connectionLine.style.position = 'absolute';
+                            connectionLine.style.height = `${childRect.top - parentRect.bottom}px`;
+                            connectionLine.style.width = '2px';
+                            connectionLine.style.backgroundColor = '#333';
+                            connectionLine.style.left = `${(parentRect.left + parentRect.right) / 2}px`;
+                            connectionLine.style.top = `${parentRect.bottom}px`;
+
+                            document.body.appendChild(connectionLine);
                         }
                     });
                 }
             });
         }
-
-        createFamilyTree(familyData);
     </script>
 </body>
 </html>
