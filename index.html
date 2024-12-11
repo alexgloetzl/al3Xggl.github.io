@@ -1,1 +1,80 @@
-Hello this is my website!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Tree</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f9;
+        }
+        .family-tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .generation {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .person {
+            margin: 0 15px;
+            text-align: center;
+        }
+        .line {
+            border-top: 2px solid #333;
+            width: 40px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="family-tree">
+        <!-- First Generation -->
+        <div class="generation">
+            <div class="person">
+                <p>Grandfather</p>
+                <div class="line"></div>
+            </div>
+            <div class="person">
+                <p>Grandmother</p>
+                <div class="line"></div>
+            </div>
+        </div>
+
+        <!-- Second Generation -->
+        <div class="generation">
+            <div class="person">
+                <p>Father</p>
+                <div class="line"></div>
+            </div>
+            <div class="person">
+                <p>Mother</p>
+                <div class="line"></div>
+            </div>
+        </div>
+
+        <!-- Third Generation -->
+        <div class="generation">
+            <div class="person">
+                <p>Child 1</p>
+            </div>
+            <div class="person">
+                <p>Child 2</p>
+            </div>
+            <div class="person">
+                <p>Child 3</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
