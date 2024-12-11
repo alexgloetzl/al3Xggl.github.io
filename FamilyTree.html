@@ -1,20 +1,22 @@
 <!--HTML-->
-<script src="https://al3xggl.github.io/familytree.js"></script>
-<div id="tree"></div>
-<script>
+<head>
+    <script src="https://al3xggl.github.io/familytree.js"></script>
+</head>
+<body>
+    <div id="tree"></div>
+    <script>
 
-    let family = new FamilyTree("#tree", {
-        // options
-        nodeBinding: {
-            field_0: "name"
-        },
-        nodes: [
-            { id: 1, pids: [2], name: "Amber McKenzie", gender: "female" },
-            { id: 2, pids: [1], name: "Ava Field", gender: "male" },
-            { id: 3, mid: 1, fid: 2, name: "Peter Stevens", gender: "male" }
-        ]  
-    });
+        let family = new FamilyTree("#tree", {
+            // options
+            nodeBinding: {
+                field_0: "name"
+            },
+            nodes: [
+                { id: 1, pids: [2], name: "Amber McKenzie", gender: "female" },
+                { id: 2, pids: [1], name: "Ava Field", gender: "male" },
+                { id: 3, mid: 1, fid: 2, name: "Peter Stevens", gender: "male" }
+            ]  
+        });
 
- 
-
-</script> 
+    </script>
+</body>
